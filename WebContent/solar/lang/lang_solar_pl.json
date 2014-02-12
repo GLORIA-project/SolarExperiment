@@ -1,80 +1,80 @@
 {
-    "header": "Solar experiment",
+    "header": "Eksperyment słoneczny",
     "reservation": {
         "obsolete": {
-            "l1": "The reservation id @{p1}@ is obsolete",
-            "l2": "Want to get a new one?. Click",
-            "here": "here"
+            "l1": "Twój numer rezerwacji @{p1}@ już wygasł",
+            "l2": "Chcesz nowy numer? Kliknij",
+            "here": "tutaj"
         },
-        "unknown": "The reservation id @{p1}@ does not exist",
-        "loading": "Loading",
-        "problem": "The telescope is not working properly. Please try again in a few minutes",
-        "end": "Your reservation has ended, we hope you enjoyed the experiment!",
-        "login": "You are not logged in. Redirecting",
-        "nvalid": "The reservation id @{p1}@ is not valid"
+        "unknown": "Ten numer rezerwacji @{p1}@ nie istnieje",
+        "loading": "Wczytuję",
+        "problem": "Teleskop nie działa prawidłowo. Proszę spróbuj ponownie za kilka minut.",
+        "end": "Twój czas rezerwacji upłynął. Mamy nadzieję, że podobał się Tobie ten eksperyment!",
+        "login": "Nie jesteś zalogowany. Przekierowuje",
+        "nvalid": "Twój numer rezerwacji @{p1}@ jest nieprawidłowy"
     },
     "blocks": {
         "purpose": {
-            "title": "Purpose",
-            "content": "This experiment aims to get as many images of the solar photosphere as possible. The better the image, the more accurate the measurement of solar activity we get."
+            "title": "Cel",
+            "content": "Ten eksperyment polega na zebraniu jak najwięcej liczby zdjęć fotosfery Słońca. Im częściej obserwujemy Słońce, tym lepiej potrafimy określić aktywność słoneczną."
         },
         "tel_desc": {
-            "title": "Telescope description",
-            "content": "This experiment interacts with the TADs telescope installed at the Observatorio del Teide in Tenerife."
+            "title": "Opis teleskopu",
+            "content": "Eksperyment pozwala na sterowanie teleskopem TAD umiejscowionym w Obserwatorium del Teide na Teneryfie."
         },
         "target": {
-            "title": "Target",
-            "loading": "Loading",
-            "point": "Asking TADs to point to the Sun",
-            "request": "Just click on the Sun to start pointing",
-            "pointed": "Once the Sun is visible, you can use the finder arrows to centre",
-            "moving-e": "Moving to the east",
-            "moving-n": "Moving to the north",
-            "moving-s": "Moving to the south",
-            "moving-w": "Moving to the west",
-            "move-e": "Move east",
-            "move-n": "Move north",
-            "move-s": "Move south",
-            "move-w": "Move west",
-            "done": "Done",
-            "error": "An error has occurred"
+            "title": "Cel",
+            "loading": "Wczytuje",
+            "point": "Zlecam teleskopowi TAD aby skierował się na Słońce",
+            "request": "Kliknij na Słońce aby ustawić teleskop.",
+            "pointed": "Gdy tylko zobaczysz obraz Słońca poruszaj strzałkami aby ustawić jego tarczę pośrodku",
+            "moving-e": "Przesuwam na wschód",
+            "moving-n": "Przesuwam na północ",
+            "moving-s": "Przesuwam na południe",
+            "moving-w": "Przesuwam na zachód",
+            "move-e": "Przesuń na wschód",
+            "move-n": "Przesuń na północ",
+            "move-s": "Przesuń na południe",
+            "move-w": "Przesuń na zachód",
+            "done": "Gotowe",
+            "error": "Wystąpił błąd"
         },
         "finder": {
-            "title": "Finder",
+            "title": "Szukacz",
             "content": ""
         },
         "exterior": {
-            "title": "Exterior view",
-            "open": "Open the dome",
-            "close": "Close the dome"
+            "title": "Widok na zewnątrz",
+            "open": "Otwórz kopułę",
+            "close": "Zamknij kopułę"
         },
         "tel_sight": {
-            "title": "Telescope sight",
-            "incexp": "Increase exposure time",
-            "decexp": "Decrease exposure time",
-            "setexp": "Set exposure time",
-            "incstep": "Increase focuser steps",
-            "decstep": "Decrease focuser steps",
-            "move": "Update focus",
-            "take": "Take an image"
+            "title": "Jak widzi teleskop",
+            "incexp": "Zwiększ czas ekspozycji",
+            "decexp": "Zmniejsz czas ekspozycji",
+            "setexp": "Ustaw czas ekspozycji",
+            "incstep": "Zwiększ krok ogniskowania",
+            "decstep": "Zmniejsz krok ogniskowania",
+            "move": "Ustaw ognisko",
+            "take": "Wykonaj zdjęcie"
         },
         "weather": {
-            "title": "Weather conditions",
-            "looking": "Looking for weather information",
-            "rh": "Relative humidity",
-            "wind": "Wind speed"
+            "title": "Pogoda",
+            "looking": "Czekam na informację o pogodzie",
+            "rh": "Wilgotność względna",
+            "wind": "Prędkość wiatru"
         },
         "elapsed": {
-            "title": "Elapsed time",
-            "calc": "Calculating",
-            "remaining": "@{p1}@ s remaining"
+            "title": "Pozostały czas",
+            "calc": "Liczę",
+            "remaining": "pozostało @{p1}@ sekund"
         },
         "images": {
-            "title": "Your images",
-            "took": "You took this image at"
+            "title": "Twoje zdjęcia",
+            "took": "Zdjęcie wykonano o "
         },
         "measure": {
-            "title": "Measure solar activity"
+            "title": "Wyznacz aktywność Słońca"
         }
     }
 }
