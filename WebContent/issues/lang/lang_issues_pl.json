@@ -1,13 +1,13 @@
 {
-	"header": "Software issues",
-	"intro": "We want to share with you the list of problems we're trying to solve and improvements in which we work. To do this we rely on the services of our GitHub repositories, and specifically for this site, the SolarExperiment project.",
-	"scope": "SolarExperiment is software that allows you to interact with our solar telescopes and run the solar experiment. Therefore, all findings shown here refer to the cited content.",
-	"bugs": "Bugs",
-	"none": "No open issues",
-	"enhancements": "Enhancements",
+	"header": "Problemy z oprogramowaniem",
+	"intro": "Napotkaliśmy już na kilka problemów, którym staramy się sprostać i usprawnień nad którymi pracujemy. W szczególności aby ulepszyć stronę projektu SolarExperiment korzystamy z narzędzia GitHub.",
+	"scope": "Oprogramowanie SolarExperiment pozwala na zdalną pracę z pomocą naszych teleskopów słonecznych oraz przeprowadzenie ćwiczeń dotyczących Słońca. Jeśli macie uwagi w tym temacie prosimy o podzielenie się nimi z nami.",
+	"bugs": "Błędy",
+	"none": "Brak zgłoszonych spraw",
+	"enhancements": "Rozszerzenia",
 	"contribute": {
-		"header": "Want to contribute?",
-		"pre": "Go to our GitHub organization and get involved into the",
-		"post": " repository issues! To be allowed to contribute you must have an account there. After you login, you will be able to create new issues, comment and help us to improve GLORIA."
+		"header": "Chcesz pomóc?",
+		"pre": "Przejdź do narzędzia GitHub i pomóż rozwiązać napotkane",
+		"post": " przez innych problemy! Aby wziąć udział w ulepszaniu naszych narzędzi musisz posiadać konto w GitHub. Po zalogowaniu będziesz mógł zgłosić nowy błąd, wziąć udział w dyskusji lub pomóc nam udoskonalać projekt GLORIA."
 	}
 }

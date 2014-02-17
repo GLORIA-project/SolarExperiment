@@ -1,33 +1,33 @@
 {
     "titles": {
-        "home": "Home",
+        "home": "Domů",
         "experiments": {
-            "header": "Experiments",
+            "header": "Experimenty",
             "online": {
                 "header": "ONLINE",
-                "solar": "Solar",
-                "night": "Night"
+                "solar": "Sluneční",
+                "night": "Noční"
             },
             "reservations": {
-                "header": "RESERVATIONS",
-                "new": "New",
-                "pending": "Pending"
+                "header": "REZERVACE",
+                "new": "Nová",
+                "pending": "Nevyřízené"
             },
             "offline": {
                 "header": "OFFLINE",
-                "pspace": "Personal space",
-                "wolf": "Solar activity",
-                "luiza": "Variable stars"
+                "pspace": "Osobní vesmír",
+                "wolf": "Sluneční aktivita",
+                "luiza": "Proměnné hvězdy"
             }
         },
         "images": {
-            "header": "Images"
+            "header": "Snímky"
         },
         "profile": {
-            "header": "Profile"
+            "header": "Profil"
         },
         "issues": {
-            "header": "Issues"
+            "header": "Problémy"
         }
     }
 }

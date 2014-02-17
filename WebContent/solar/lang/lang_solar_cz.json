@@ -1,80 +1,82 @@
 {
-    "header": "Solar experiment",
-    "reservation": {
-        "obsolete": {
-            "l1": "The reservation id @{p1}@ is obsolete",
-            "l2": "Want to get a new one?. Click",
-            "here": "here"
-        },
-        "unknown": "The reservation id @{p1}@ does not exist",
-        "loading": "Loading",
-        "problem": "The telescope is not working properly. Please try again in a few minutes",
-        "end": "Your reservation has ended, we hope you enjoyed the experiment!",
-        "login": "You are not logged in. Redirecting",
-        "nvalid": "The reservation id @{p1}@ is not valid"
-    },
-    "blocks": {
-        "purpose": {
-            "title": "Purpose",
-            "content": "This experiment aims to get as many images of the solar photosphere as possible. The better the image, the more accurate the measurement of solar activity we get."
-        },
-        "tel_desc": {
-            "title": "Telescope description",
-            "content": "This experiment interacts with the TADs telescope installed at the Observatorio del Teide in Tenerife."
-        },
-        "target": {
-            "title": "Target",
-            "loading": "Loading",
-            "point": "Asking TADs to point to the Sun",
-            "request": "Just click on the Sun to start pointing",
-            "pointed": "Once the Sun is visible, you can use the finder arrows to centre",
-            "moving-e": "Moving to the east",
-            "moving-n": "Moving to the north",
-            "moving-s": "Moving to the south",
-            "moving-w": "Moving to the west",
-            "move-e": "Move east",
-            "move-n": "Move north",
-            "move-s": "Move south",
-            "move-w": "Move west",
-            "done": "Done",
-            "error": "An error has occurred"
-        },
-        "finder": {
-            "title": "Finder",
-            "content": ""
-        },
-        "exterior": {
-            "title": "Exterior view",
-            "open": "Open the dome",
-            "close": "Close the dome"
-        },
-        "tel_sight": {
-            "title": "Telescope sight",
-            "incexp": "Increase exposure time",
-            "decexp": "Decrease exposure time",
-            "setexp": "Set exposure time",
-            "incstep": "Increase focuser steps",
-            "decstep": "Decrease focuser steps",
-            "move": "Update focus",
-            "take": "Take an image"
-        },
-        "weather": {
-            "title": "Weather conditions",
-            "looking": "Looking for weather information",
-            "rh": "Relative humidity",
-            "wind": "Wind speed"
-        },
-        "elapsed": {
-            "title": "Elapsed time",
-            "calc": "Calculating",
-            "remaining": "@{p1}@ s remaining"
-        },
-        "images": {
-            "title": "Your images",
-            "took": "You took this image at"
-        },
-        "measure": {
-            "title": "Measure solar activity"
-        }
-    }
+	"header" : "Sluneční experiment",
+	"reservation": {
+		"obsolete": {
+			"l1": "Rezervace s id @{p1}@ vypršela",
+			"l2": "Chcete novou?. Klikněte",
+			"here": "zde"
+		},
+		"unknown": "Rezervace s id @{p1}@ neexistuje",
+		"loading": "Nahrávám",
+		"problem": "Dalekohled nefunguje správně. Zkuste to prosím za několik minut",
+		"end": "Vaše rezervace skončila, doufáme, že jste si experiment užil(a)!",
+		"login": "Nejste přihlášen(a). Dojde k přesměrování",
+		"nvalid" : "Rezervace s id @{p1}@ není platná"		
+	},
+	"blocks": {
+		"purpose": {
+			"title": "Účel",
+			"content": "Cílem tohoto experimentu je pořízení co největšího počtu kvalitních snímků sluneční fotosféry. Čím lepší budou snímky, tím kvalitnější bude měření aktivity Slunce"
+		},
+		"tel_desc": { 
+			"title": "Popis dalekohledu",
+			"content": "Tento experiment využívá dalekohled TAD umístěný na observatoři Teide na Tenerife"
+		},
+		"target": { 
+			"title": "Cíl",
+			"loading": "Nahrávám",
+			"point": "Žádám TAD o pointaci na Slunce",
+			"request": "Klikem na Slunce spustíte pointaci",
+			"pointed": "Jakmile uvidíte Slunce, můžete snímek vycentrova šipkami hledáčku",
+			"moving-e": "Přesouvám na východ",
+			"moving-n": "Přesouvám na sever",
+			"moving-s": "Přesouvám na jih",
+			"moving-w": "Přesouvám na západ",
+			"move-e": "Přesun na východ",
+			"move-n": "Přesun na sever",
+			"move-s": "Přesun na jih",
+			"move-w": "Přesun na západ",
+			"done": "Hotovo",
+			"error": "Došlo k chybě"
+		},
+		"finder": {
+			"title": "Hledáček",
+			"content": ""
+		},
+		"exterior": {
+			"title": "Pohled zvenku",
+			"open": "Otevřít kopuli",
+			"close": "Zavřít kopuli"
+		},
+		"tel_sight": {
+			"title": "Pohled dalekohledem",
+			"incexp": "Prodloužit expoziční čas",
+			"decexp": "Zkrátit expoziční čas",
+			"setexp": "Nastavit expoziční čas",
+			"incstep": "Zvýšit polohu zaostřovače",
+			"decstep": "Snížit polohu zaostřovače",
+			"move": "Nastavit zaostřovač",
+			"take": "Pořídit snímek"
+		},
+		"weather": {
+			"title": "Povětrnostní podmínky",
+			"looking": "Získávám informace o počasí",
+			"rh": "Relativní vlhkost",
+			"wind": "Rychlost větru"
+			
+		},
+		"elapsed": {
+			"title": "Uplynulý čas",
+			"calc": "Počítám",
+			"remaining": "@{p1}@ s zbývá"
+		},
+		"images": {
+			"title": "Vaše snímky",
+			"took": "Snímek byl pořízen v"
+		},
+		"measure": {
+			"title": "Měření sluneční aktivity"
+		}
+	}
 }
+
