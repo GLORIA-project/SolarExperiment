@@ -1,26 +1,26 @@
 {
 	"titles" : {
-		"home": "Home",
+		"home": "Accueil",
 		"experiments": {
-			"header": "Experiments",
+			"header": "Expériences",
 			"online": {
-				"header": "Online",
-				"solar" : "Solar"
+				"header": "En-ligne",
+				"solar" : "Solaire"
 			},
 			"reservations" : {
-				"header": "RESERVATIONS",
-				"new": "New",
-				"pending": "Pending"
+				"header": "RÉSERVATIONS",
+				"new": "Nouveau",
+				"pending": "En attente"
 			}
 		},
 		"images": {
 			"header": "Images"
 		},
         "profile": {
-            "header": "Profile"
+            "header": "Profil"
         },
         "issues": {
-            "header": "Issues"
+            "header": "Problèmes"
         }
 	}
 }

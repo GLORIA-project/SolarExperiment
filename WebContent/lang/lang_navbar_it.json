@@ -24,10 +24,10 @@
             "header": "Immagini"
         },
         "profile": {
-            "header": "Profile"
+            "header": "Profilo"
         },
         "issues": {
-            "header": "Issues"
+            "header": "Problemi"
         }
     }
 }
