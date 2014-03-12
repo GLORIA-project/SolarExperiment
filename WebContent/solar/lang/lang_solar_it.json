@@ -37,7 +37,8 @@
                         "move-s": "Muovi a Sud",
                         "move-w": "Muovi a Ovest",
                         "done": "Fatto",
-                        "error": "Si è verificato un errore."
+                        "error": "Si è verificato un errore.",
+            			"shared": "Shared mode"
                 },
                 "finder": {
                         "title": "Cercatore",

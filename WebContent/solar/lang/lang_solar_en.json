@@ -37,7 +37,8 @@
             "move-s": "Move south",
             "move-w": "Move west",
             "done": "Done",
-            "error": "An error has occurred"
+            "error": "An error has occurred",
+            "shared": "Shared mode"
         },
         "finder": {
             "title": "Finder",

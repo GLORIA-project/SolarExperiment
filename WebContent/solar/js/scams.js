@@ -6,7 +6,7 @@ function LoadDomeContent($gloriaAPI, scope) {
 
 		if (data.last_operation != undefined) {
 			scope.status.dome.lastOperation = data.last_operation;
-			if (data.last_operation == 'open') {				
+			if (data.last_operation == 'open') {
 				scope.status.dome.closeEnabled = true;
 				scope.status.dome.openEnabled = false;
 			} else {
@@ -20,8 +20,8 @@ function LoadDomeContent($gloriaAPI, scope) {
 
 function OpenDome($gloriaAPI, scope) {
 
-	$gloriaAPI
-			.setParameterTreeValue(scope.rid, 'dome', 'last_operation', 'open');
+	$gloriaAPI.setParameterTreeValue(scope.rid, 'dome', 'last_operation',
+			'open');
 
 	return $gloriaAPI.executeOperation(scope.rid, 'open', function(data) {
 	}, function(error) {
@@ -66,7 +66,7 @@ function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
 			$scope.status.dome.closeEnabled = true;
 		} else {
 			$scope.status.dome.openStyle.left = "78.3%";
-			$scope.status.dome.openEnabled = true;			
+			$scope.status.dome.openEnabled = true;
 		}
 
 	};
@@ -93,6 +93,7 @@ function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
 
 	$scope.$watch('rid', function() {
 		if ($scope.rid > 0) {
+			
 			LoadDomeContent($gloriaAPI, $scope);
 			$gloriaAPI.getParameterTreeValue($scope.rid, 'cameras', 'scam',
 					function(data) {
@@ -106,7 +107,7 @@ function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
 					});
 		}
 	});
-	
+
 	$scope.$watch('weatherAlarm', function() {
 		$scope.status.dome.locked = $scope.$parent.weatherAlarm;
 	});

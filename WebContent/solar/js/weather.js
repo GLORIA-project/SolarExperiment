@@ -4,11 +4,7 @@ function LoadWeatherValues($gloriaAPI, scope) {
 	return scope.sequence.execute(function() {
 		return $gloriaAPI.executeOperation(scope.rid, 'load_weather_values',
 				function(data) {
-					$gloriaAPI.executeOperation(scope.rid,
-							'get_wind_speed_alarm');
-					$gloriaAPI.executeOperation(scope.rid, 'get_rh_alarm');
 				}, function(error) {
-					// alert(error);
 				});
 	});
 }
@@ -75,7 +71,9 @@ function SolarWeatherCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout) {
 
 	$scope.status.time.onTimeout = function() {
 
-		LoadWeatherValues($gloriaAPI, $scope);
+		if (!$scope.sharedMode) {
+			LoadWeatherValues($gloriaAPI, $scope);
+		}
 		LoadWeatherContent($gloriaAPI, $scope).then(
 				function() {
 					$scope.status.time.timer = $timeout(

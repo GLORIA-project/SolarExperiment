@@ -4,7 +4,6 @@ function LoadCCDContent($gloriaAPI, scope) {
 	return scope.sequence.execute(function() {
 		return $gloriaAPI.getParameterTreeValue(scope.rid, 'cameras', 'ccd',
 				function(data) {
-					console.log(data);
 					scope.ccds = data.images.slice(0, 2);
 				});
 	});
@@ -14,7 +13,6 @@ function LoadFocuserContent($gloriaAPI, scope) {
 	return scope.sequence.execute(function() {
 		return $gloriaAPI.getParameterValue(scope.rid, 'focuser',
 				function(data) {
-					console.log(data);
 					scope.focuser = data;
 
 					if (scope.focuser.last_offset == undefined) {
@@ -44,7 +42,7 @@ function LoadContinuousImage($gloriaAPI, scope, order) {
 				function() {
 					scope.continuousMode = false;
 				}, function(error) {
-					scope.$parent.ccdProblem = true;
+					scope.$parent.deviceOnError = true;
 				});
 	});
 
@@ -53,13 +51,12 @@ function LoadContinuousImage($gloriaAPI, scope, order) {
 				function() {
 					scope.continuousMode = true;
 				}, function(error) {
-					scope.$parent.ccdProblem = true;
+					scope.$parent.deviceOnError = true;
 				});
 	});
 }
 
 function SetFocuserPosition($gloriaAPI, scope) {
-
 	scope.status.main.focuser.valueSet = false;
 
 	scope.sequence.execute(function() {
@@ -124,10 +121,9 @@ function LoadCCDAttributes($gloriaAPI, scope, order) {
 
 	return scope.sequence.execute(function() {
 		return $gloriaAPI.executeOperation(scope.rid, 'get_ccd_attributes',
-				function(data) {
-
+				function() {
 				}, function(error) {
-					//scope.$parent.ccdProblem = true;
+					scope.$parent.deviceOnError = true;
 				});
 	});
 }
@@ -244,7 +240,6 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 								});
 							}
 						} else {
-							alert("exposure failed");
 							$scope.$parent.imageTaken = true;
 						}
 					});
@@ -269,7 +264,6 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 	};
 
 	$scope.setFocuserPositionValue = function(sign) {
-		console.log($scope.status.main.focuser.length);
 		$scope.focuser.offset += (150 * $scope.status.main.focuser.length)
 				* sign;
 
@@ -281,7 +275,6 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 
 		$scope.focuser.exp_offset = Math.floor($scope.focuser.offset
 				- $scope.focuser.last_offset);
-		console.log($scope.focuser.exp_offset);
 
 		var steps = $scope.focuser.offset - 500;
 		var height = Math.abs(steps) * 115 / 500;
@@ -301,80 +294,99 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 	};
 
 	$scope.setExposureTime = function() {
-		SetExposureTime($gloriaAPI, $scope);
+		if (!$scope.sharedMode) {
+			SetExposureTime($gloriaAPI, $scope);
+		}
 	};
 
 	$scope.setFocuserPosition = function() {
-		SetFocuserPosition($gloriaAPI, $scope);
+		if (!$scope.sharedMode) {
+			SetFocuserPosition($gloriaAPI, $scope);
+		}
 	};
 
 	$scope.startExposure = function() {
-		StartExposure($gloriaAPI, $scope, $timeout);
+		if (!$scope.sharedMode) {
+			StartExposure($gloriaAPI, $scope, $timeout);
+		}
 	};
 
-	$scope
-			.$watch(
-					'weatherLoaded',
+	$scope.initCCDSystem = function() {
+		var upToDate = true;
+
+		if (!$scope.sharedMode) {
+			for (var i = 0; i < $scope.ccds.length; i++) {
+				if ($scope.ccds[i].cont == undefined
+						|| $scope.ccds[i].cont == null) {
+					LoadContinuousImage($gloriaAPI, $scope, i);
+					upToDate = false;
+				}
+			}
+		}
+
+		$scope.exposureStyle.top = ((($scope.ccds[0].exposure * 230 / 0.05) + 83) * -1.0)
+				+ "px";
+		$scope.exposureBarStyle.top = 230
+				- ((($scope.ccds[0].exposure * 230 / 0.05))) + "px";
+
+		if (!upToDate) {
+			LoadCCDContent($gloriaAPI, $scope).then(function() {
+				$scope.$parent.ccdImagesLoaded = true;
+
+			});
+		} else {
+			$scope.$parent.ccdImagesLoaded = true;
+		}
+	};
+
+	$scope.$watch('weatherLoaded', function() {
+		if ($scope.rid > 0) {
+
+			if (!$scope.sharedMode) {
+				LoadCCDAttributes($gloriaAPI, $scope, 0);
+			} else {
+				$scope.loadContentTimer = $timeout($scope.loadSharedContent,
+						5000);
+			}
+			LoadFocuserContent($gloriaAPI, $scope);
+			LoadCCDContent($gloriaAPI, $scope).then(
 					function() {
-						if ($scope.rid > 0) {
-
-							LoadFocuserContent($gloriaAPI, $scope);
-							LoadCCDAttributes($gloriaAPI, $scope, 0);
-							LoadCCDContent($gloriaAPI, $scope)
-									.then(
-											function() {
-
-												var upToDate = true;
-
-												for (var i = 0; i < $scope.ccds.length; i++) {
-													if ($scope.ccds[i].cont == undefined
-															|| $scope.ccds[i].cont == null) {
-														LoadContinuousImage(
-																$gloriaAPI,
-																$scope, i);
-														upToDate = false;
-													}
-												}
-
-												if (!upToDate) {
-													LoadCCDContent($gloriaAPI,
-															$scope)
-															.then(
-																	function() {
-																		console
-																				.log('initial context loaded');
-																		$scope.$parent.ccdImagesLoaded = true;
-
-																	});
-												} else {
-													console
-															.log('initial context loaded');
-													$scope.$parent.ccdImagesLoaded = true;
-												}
-
-												$scope.exposureStyle.top = ((($scope.ccds[0].exposure * 230 / 0.05) + 83) * -1.0)
-														+ "px";
-												$scope.exposureBarStyle.top = 230
-														- ((($scope.ccds[0].exposure * 230 / 0.05)))
-														+ "px";
-
-												$scope
-														.setFocuserPositionValue(1.0);
-
-												$scope.status.time.timer = $timeout(
-														$scope.status.time.onTimeout,
-														1000, 1000);
-
-											});
-						}
+						$scope.initCCDSystem();
+						$scope.status.time.timer = $timeout(
+								$scope.status.time.onTimeout, 1000, 1000);
+						$scope.setFocuserPositionValue(1.0);
 					});
+		}
+	});
+
+	$scope.loadSharedContent = function() {
+		LoadFocuserContent($gloriaAPI, $scope).then(function() {
+			$scope.setFocuserPositionValue(1.0);
+		});
+		$gloriaAPI
+				.getParameterTreeValue(
+						$scope.rid,
+						'cameras',
+						'ccd',
+						function(data) {
+							var ccds = data.images.slice(0, 2);
+							$scope.ccds[0].exposure = ccds[0].exposure;
+
+							$scope.exposureStyle.top = ((($scope.ccds[0].exposure * 230 / 0.05) + 83) * -1.0)
+									+ "px";
+							$scope.exposureBarStyle.top = 230
+									- ((($scope.ccds[0].exposure * 230 / 0.05)))
+									+ "px";
+						});
+
+		$scope.loadContentTimer = $timeout($scope.loadSharedContent, 5000);
+	};
 
 	$scope.status.time.onTimeout = function() {
 		$scope.status.time.count += 1;
 		var i = 0;
 		$scope.ccds
 				.forEach(function(index) {
-					// $scope.ccds[i].pcont = null; // DELETE THIS!
 					if ($scope.ccds[i].cont != null
 							&& $scope.ccds[i].cont != undefined) {
 						$scope.ccds[i].pcont = $scope.ccds[i].cont + '?d='
@@ -390,5 +402,6 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 	$scope.$on('$destroy', function() {
 		$timeout.cancel($scope.status.time.timer);
 		$timeout.cancel($scope.status.main.exposure.timer);
+		$timeout.cancel($scope.loadContentTimer);
 	});
 }

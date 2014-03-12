@@ -37,7 +37,8 @@
 			"move-s": "Mover al sur",
 			"move-w": "Mover al oeste",
 			"done": "Hecho",
-			"error": "Ha ocurrido un problema"
+			"error": "Ha ocurrido un problema",
+			"shared": "Modo compartido"
 		},
 		"finder": {
 			"title": "Buscador",

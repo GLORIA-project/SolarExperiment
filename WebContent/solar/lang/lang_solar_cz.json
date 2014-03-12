@@ -37,7 +37,8 @@
 			"move-s": "Přesun na jih",
 			"move-w": "Přesun na západ",
 			"done": "Hotovo",
-			"error": "Došlo k chybě"
+			"error": "Došlo k chybě",
+            "shared": "Shared mode"
 		},
 		"finder": {
 			"title": "Hledáček",

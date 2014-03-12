@@ -48,7 +48,7 @@
 			<h5 class="label-info title">{{'solar.blocks.exterior.title'|i18n}}</h5>
 		</div>
 		<div>
-			<div class="animate-show" ng-class="{'opaque': status.focused==true}"
+			<div ng-if="!sharedMode" class="animate-show" ng-class="{'opaque': status.focused==true}"
 				style="position: relative; opacity: 0.7">
 				<div ng-style="status.dome.openStyle"
 					ng-show="!status.dome.locked && status.dome.openEnabled" tooltip-popup-delay="500"
@@ -108,7 +108,7 @@
 									</div>
 								</div>
 							</div>
-							<div tooltip-popup-delay="500"
+							<div ng-if="!sharedMode" tooltip-popup-delay="500"
 								tooltip="{{'solar.blocks.tel_sight.incexp'| i18n}}"
 								tooltip-placement="right"
 								style="position: absolute; top: -330px; left: 23px;">
@@ -119,7 +119,7 @@
 									style="width: 20px; cursor: pointer" class="bright-button"
 									ng-src="{{mainPath}}/img/plus.png">
 							</div>
-							<div tooltip-popup-delay="500"
+							<div ng-if="!sharedMode" tooltip-popup-delay="500"
 								tooltip="{{'solar.blocks.tel_sight.decexp'| i18n}}"
 								tooltip-placement="right"
 								style="position: absolute; top: -35px; left: 23px;">
@@ -157,7 +157,7 @@
 									</div>
 								</div>
 							</div>
-							<div tooltip-popup-delay="500"
+							<div ng-if="!sharedMode" tooltip-popup-delay="500"
 								tooltip="{{'solar.blocks.tel_sight.incstep'| i18n}}"
 								tooltip-placement="left"
 								style="position: absolute; top: -330px; left: 413px;">
@@ -168,7 +168,7 @@
 									style="width: 20px; cursor: pointer" class="bright-button"
 									ng-src="{{mainPath}}/img/plus.png">
 							</div>
-							<div tooltip-popup-delay="500"
+							<div ng-if="!sharedMode" tooltip-popup-delay="500"
 								tooltip="{{'solar.blocks.tel_sight.decstep'| i18n}}"
 								tooltip-placement="left"
 								style="position: absolute; top: -35px; left: 413px;">
@@ -195,13 +195,13 @@
 
 							</div>
 						</div>
-						<div tooltip-popup-delay="500"
+						<div ng-show="!sharedMode" tooltip-popup-delay="500"
 							tooltip="{{'solar.blocks.tel_sight.take'| i18n}}"
 							tooltip-placement="top" class="arrows-control"
 							ng-class="{'opaque': status.main.camera.focused}"
 							ng-mouseenter="status.main.camera.focused=true"
 							ng-mouseleave="status.main.camera.focused=false"
-							style="position: absolute; top: -53px; left: 200px;">
+							style="position: absolute; top: -53px; left: 200px;">							
 							<img ng-show="imageTaken" ng-click="startExposure()"
 								style="width: 43px; cursor: pointer" class="bright-button"
 								ng-src="{{mainPath}}/img/take.png"> <img
@@ -234,28 +234,28 @@
 				<div style="position: relative;">
 					<div ng-show="arrowsEnabled" class="arrows-control animate-show"
 						ng-class="{'opaque': status.finder.focused==true}">
-						<div tooltip-popup-delay="500"
+						<div ng-show="!limits.south" tooltip-popup-delay="500"
 							tooltip="{{'solar.blocks.target.move-s'| i18n}}"
 							tooltip-placement="top"
 							style="position: absolute; width: 15%; top: -28px; left: 94px; cursor: pointer;">
 							<img class="bright-button" ng-src="{{mainPath}}/img/down.png"
 								ng-click="moveFinder('SOUTH')">
 						</div>
-						<div tooltip-popup-delay="500"
+						<div ng-show="!limits.north" tooltip-popup-delay="500"
 							tooltip="{{'solar.blocks.target.move-n'| i18n}}"
 							tooltip-placement="bottom"
 							style="position: absolute; width: 15%; top: -203px; left: 94px; cursor: pointer;">
 							<img class="bright-button" ng-src="{{mainPath}}/img/up.png"
 								ng-click="moveFinder('NORTH')">
 						</div>
-						<div tooltip-popup-delay="500"
+						<div ng-show="!limits.west" tooltip-popup-delay="500"
 							tooltip="{{'solar.blocks.target.move-w'| i18n}}"
 							tooltip-placement="right"
 							style="position: absolute; width: 8%; top: -123px; left: 14px; cursor: pointer;">
 							<img class="bright-button" ng-src="{{mainPath}}/img/left.png"
 								ng-click="moveFinder('WEST')">
 						</div>
-						<div tooltip-popup-delay="500"
+						<div ng-show="!limits.east" tooltip-popup-delay="500"
 							tooltip="{{'solar.blocks.target.move-e'| i18n}}"
 							tooltip-placement="left"
 							style="position: absolute; width: 8%; top: -123px; left: 188px; cursor: pointer;">
@@ -372,7 +372,7 @@
 	            				<img ng-src="{{image.jpg}}">        			
         					</div>
         					<div class="modal-footer" style="background-color: rgba(0, 0, 0, 0.6); border: none">
-								<p class="pull-left">{{'solar.blocks.images.took'}} {{image.date | utc | date:short}} UT.</p>
+								<p class="pull-left">{{'solar.blocks.images.took'|i18n}} {{image.date | utc | date:short}} UT.</p>
 								<a class="btn btn-primary" download="image.jpg" ng-href="{{image.jpg + '&download=true'}}">JPEG</a>
 								<a class="btn btn-warning" download="image.jpg" ng-href="{{image.fits + '&download=true'}}">FITS</a>            					
         					</div>

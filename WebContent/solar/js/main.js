@@ -51,7 +51,7 @@ toolbox.lazy.filter('UTCDateFilter', function() {
 });
 
 function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
-		$routeParams) {
+		$routeParams, Login) {
 
 	$scope.mainPath = 'solar';
 	$scope.solarReady = false;
@@ -75,8 +75,15 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 	$scope.targetSettingsLoaded = false;
 	$scope.movementDirection = null;
 	$scope.imageTaken = true;
-	$scope.ccdProblem = false;
+	$scope.deviceOnError = false;
 	$scope.weatherAlarm = false;
+	$scope.sharedMode = false;
+	$scope.limits = {
+		east : false,
+		west : false,
+		north : false,
+		south : false
+	};
 
 	$scope.specificHtml = $scope.mainPath + '/html/content.html';
 
@@ -87,6 +94,11 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 				$scope.rid = $scope.preRid;
 				$scope.reservationActive = true;
 				$scope.infoUpdated = true;
+
+				if (data.user != Login.getUser()) {
+					$scope.sharedMode = true;
+				}
+
 			} else if (data.status == 'SCHEDULED') {
 				$scope.resTimer = $timeout($scope.onReservation, 1000);
 			} else if (data.status == 'OBSOLETE') {
@@ -141,9 +153,9 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 		}
 	});
 
-	$scope.$watch('ccdProblem', function() {
-		if ($scope.ccdProblem) {
-			$scope.ccdProblemTimer = $timeout($scope.onDeviceProblem, 1500);
+	$scope.$watch('deviceOnError', function() {
+		if ($scope.deviceOnError) {
+			$scope.deviceOnErrorTimer = $timeout($scope.onDeviceProblem, 1500);
 		}
 	});
 
@@ -151,7 +163,7 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 		$timeout.cancel($scope.endTimer);
 		$timeout.cancel($scope.unauthTimer);
 		$timeout.cancel($scope.srvTimer);
-		$timeout.cancel($scope.ccdProblemTimer);
+		$timeout.cancel($scope.deviceOnErrorTimer);
 		$timeout.cancel($scope.resTimer);
 	});
 

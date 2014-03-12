@@ -29,10 +29,10 @@
 						style="width: 30%; margin-left: 35%; margin-top: 20px">
 						{{'solar.reservation.loading'|i18n}}...</div>
 				</div>
-				<div ng-show="deviceProblem" class="alert alert-g"
-					style="width: 50%; margin-left: 25%; margin-top: 20px">
-					{{'solar.reservation.problem'|i18n}}.</div>
 			</div>
+			<div ng-show="deviceProblem" class="alert alert-g"
+				style="width: 50%; margin-left: 25%; margin-top: 20px">
+				{{'solar.reservation.problem'|i18n}}.</div>
 		</div>
 	</div>
 	<div ng-if="reservationEnd" class="alert alert-g"
@@ -46,7 +46,7 @@
 		{{'solar.reservation.nvalid'|i18n:preRid}}</div>
 	<div class="animate-show"
 		ng-show="!deviceProblem && reservationActive && !notAuthorized"
-		ng-class="{'transparent': reservationEnd || notAuthorized || ccdProblem}">
+		ng-class="{'transparent': reservationEnd || notAuthorized || deviceOnError}">
 
 		<div ng-include src="specificHtml"></div>
 	</div>
