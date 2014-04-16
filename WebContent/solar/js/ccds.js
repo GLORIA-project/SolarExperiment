@@ -77,6 +77,7 @@ function SetFocuserPosition($gloriaAPI, scope) {
 		return $gloriaAPI.executeOperation(scope.rid, 'move_focus', function(
 				data) {
 			scope.status.main.focuser.valueSet = true;
+		}, function() {
 		});
 	});
 }
@@ -389,7 +390,7 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 				.forEach(function(index) {
 					if ($scope.ccds[i].cont != null
 							&& $scope.ccds[i].cont != undefined) {
-						$scope.ccds[i].pcont = $scope.ccds[i].cont + '?d='
+						$scope.ccds[i].pcont = $scope.ccds[i].cont + '?v='
 								+ $scope.status.time.count;
 					}
 
@@ -397,6 +398,10 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 				});
 		$scope.status.time.timer = $timeout($scope.status.time.onTimeout, 1000,
 				1000);
+	};
+	
+	$scope.contClicked = function(event) {
+		//alert(event.offsetX + " " + event.offsetY);
 	};
 
 	$scope.$on('$destroy', function() {

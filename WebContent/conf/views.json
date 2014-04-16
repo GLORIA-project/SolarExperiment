@@ -10,7 +10,8 @@
 			"solar/js/images.js",
 			"solar/js/mount.js",
 			"solar/js/scams.js",
-			"solar/js/weather.js"
+			"solar/js/weather.js",
+			"solar/js/jquery.elevatezoom.js"
 		]
 	},
 	"wrong": {

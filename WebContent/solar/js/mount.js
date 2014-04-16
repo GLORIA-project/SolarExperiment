@@ -206,6 +206,10 @@ function SolarMountCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout) {
 					SetTargetMessage($scope);
 				}
 
+				if ($scope.status.actual != 'PARKED') {
+					$scope.$parent.arrowsEnabled = true;
+				}
+				
 				if ($scope.status.context == 'TARGET_SET') {
 					$scope.targetReady = true;
 					$scope.pointingEnabled = true;
@@ -216,8 +220,7 @@ function SolarMountCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout) {
 					$scope.pointDone = true;
 					$scope.pointingEnabled = true;
 					$scope.sunIconStyle.opacity = 1.0;
-					$scope.$parent.targetSettingsLoaded = true;
-					$scope.$parent.arrowsEnabled = true;
+					$scope.$parent.targetSettingsLoaded = true;					
 				}
 
 				if ($scope.sharedMode) {

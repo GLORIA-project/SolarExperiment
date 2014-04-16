@@ -59,24 +59,32 @@ function SolarImagesCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout,
 		$scope.$parent.imageTaken = true;
 	};
 
+	$scope.forceImageRefresh = function(time) {
+		$scope.$parent.imageTaken = false;
+		$scope.takenEmulateTimer = $timeout($scope.takenEmulateTimeout, time);
+	};
+
 	$scope.$watch('imageTaken', function() {
 		if ($scope.rid > 0 && $scope.$parent.imageTaken) {
 			var prevLength = $scope.images.length;
+			$scope.thumbsReady = false;
 			LoadMyImages($gloriaAPI, $scope).then(
 					function() {
 						if ($scope.images.length != prevLength) {
-							$scope.thumbsReady = false;
 							$scope.currentIndex = Math.max(0,
 									$scope.images.length - 6);
 							$scope.latencyTimer = $timeout(
 									$scope.latencyTimeout, 1000);
+						} else {
+							$scope.forceImageRefresh(1000);
 						}
+					},
+					function() {
+						$scope.thumbsReady = true;
 					});
 
 			if ($scope.sharedMode) {
-				$scope.$parent.imageTaken = false;
-				$scope.takenEmulateTimer = $timeout($scope.takenEmulateTimeout,
-						5000);
+				$scope.forceImageRefresh(5000);
 			}
 		}
 	});

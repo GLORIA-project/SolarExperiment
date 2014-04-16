@@ -48,10 +48,12 @@
 			<h5 class="label-info title">{{'solar.blocks.exterior.title'|i18n}}</h5>
 		</div>
 		<div>
-			<div ng-if="!sharedMode" class="animate-show" ng-class="{'opaque': status.focused==true}"
+			<div ng-if="!sharedMode" class="animate-show"
+				ng-class="{'opaque': status.focused==true}"
 				style="position: relative; opacity: 0.7">
 				<div ng-style="status.dome.openStyle"
-					ng-show="!status.dome.locked && status.dome.openEnabled" tooltip-popup-delay="500"
+					ng-show="!status.dome.locked && status.dome.openEnabled"
+					tooltip-popup-delay="500"
 					tooltip="{{'solar.blocks.exterior.open' |i18n}}"
 					tooltip-placement="left"
 					style="position: absolute; width: 35px; left: 57%; top: 123px; cursor: pointer">
@@ -59,7 +61,8 @@
 						ng-click="openDome()">
 				</div>
 				<div ng-style="status.dome.closeStyle"
-					ng-show="!status.dome.locked && status.dome.closeEnabled" tooltip-popup-delay="500"
+					ng-show="!status.dome.locked && status.dome.closeEnabled"
+					tooltip-popup-delay="500"
 					tooltip="{{'solar.blocks.exterior.close' |i18n}}"
 					tooltip-placement="left"
 					style="position: absolute; width: 35px; left: 78.3%; top: 123px; cursor: pointer">
@@ -72,7 +75,7 @@
 				<span ng-switch on="image.purl==undefined"> <img
 					ng-switch-when="true" ng-src="{{mainPath}}/img/wn4.gif"
 					style="width: 216px; height: 162px; border: 2px solid rgba(0, 0, 0, 0.25); border-radius: 3px;">
-					<img ng-switch-when="false" id="{{$index}}" ng-src="{{image.purl}}"
+					<img ng-switch-when="false" ng-src="{{image.purl}}"
 					err-SRC="solar/img/wn4.gif"
 					style="height: 162px; width: 216px; border: 2px solid rgba(0, 0, 0, 0.25); border-radius: 3px;">
 				</span>
@@ -90,12 +93,13 @@
 					<span ng-switch on="ccds[0].pcont==undefined"> <img
 						ng-switch-when="true" ng-src="{{mainPath}}/img/wn5.gif"
 						style="max-width: 100%; height: 342px; border: 2px solid rgba(0, 0, 0, 0.25); border-radius: 3px">
-						<img ng-switch-when="false" ng-src="{{ccds[0].pcont}}"
+						<img ng-switch-when="false" ng-elevate-zoom
+						zoom-image="{{ccds[0].pcont}}" ng-click="contClicked($event)"
 						err-SRC="solar/img/wn5.gif"
 						style="height: 342px; max-width: 100%; border: 2px solid rgba(0, 0, 0, 0.25); border-radius: 3px">
 					</span>
 					<div class="animate-show animate-hide"
-						ng-show="ccds[0].pcont != undefined" style="position: relative;">
+						ng-show="ccds[0].pcont != undefined" style="position: relative; z-index: 1000">
 						<div class="arrows-control"
 							ng-class="{'opaque': status.main.focused==true}"
 							id="exposure-control" style="position: relative;">
@@ -201,7 +205,7 @@
 							ng-class="{'opaque': status.main.camera.focused}"
 							ng-mouseenter="status.main.camera.focused=true"
 							ng-mouseleave="status.main.camera.focused=false"
-							style="position: absolute; top: -53px; left: 200px;">							
+							style="position: absolute; top: -53px; left: 200px;">
 							<img ng-show="imageTaken" ng-click="startExposure()"
 								style="width: 43px; cursor: pointer" class="bright-button"
 								ng-src="{{mainPath}}/img/take.png"> <img
