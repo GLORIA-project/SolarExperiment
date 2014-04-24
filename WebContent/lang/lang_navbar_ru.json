@@ -24,10 +24,10 @@
             "header": "Изображения"
         },
         "profile": {
-            "header": "Profile"
+            "header": "Профиль"
         },
         "issues": {
-            "header": "Issues"
+            "header": "Проблемы"
         }
     }
 }
