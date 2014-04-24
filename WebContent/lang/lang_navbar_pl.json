@@ -1,33 +1,33 @@
 {
     "titles": {
-        "home": "Home",
+        "home": "Główna",
         "experiments": {
-            "header": "Experiments",
+            "header": "Eksperymenty",
             "online": {
                 "header": "ONLINE",
-                "solar": "Solar",
-                "night": "Night"
+                "solar": "Dzienne",
+                "night": "Nocne"
             },
             "reservations": {
-                "header": "RESERVATIONS",
-                "new": "New",
-                "pending": "Pending"
+                "header": "REZERWACJE",
+                "new": "Nowa",
+                "pending": "Oczekujące"
             },
             "offline": {
                 "header": "OFFLINE",
                 "pspace": "Personal space",
-                "wolf": "Solar activity",
-                "luiza": "Variable stars"
+                "wolf": "Aktywność słoneczna",
+                "luiza": "Gwiazdy zmienne"
             }
         },
         "images": {
-            "header": "Images"
+            "header": "Zdjęcia"
         },
         "profile": {
-            "header": "Profile"
+            "header": "Profil"
         },
         "issues": {
-            "header": "Issues"
+            "header": "Błędy"
         }
     }
 }
