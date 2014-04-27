@@ -16,7 +16,7 @@ function LoadFocuserContent($gloriaAPI, scope) {
 					scope.focuser = data;
 
 					if (scope.focuser.last_offset == undefined) {
-						scope.focuser.last_offset = 500;
+						scope.focuser.last_offset = 1000;
 					}
 
 					scope.focuser.offset = scope.focuser.last_offset;
@@ -265,29 +265,29 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 	};
 
 	$scope.setFocuserPositionValue = function(sign) {
-		$scope.focuser.offset += (150 * $scope.status.main.focuser.length)
+		$scope.focuser.offset += (300 * $scope.status.main.focuser.length)
 				* sign;
 
 		if ($scope.focuser.offset < 0) {
 			$scope.focuser.offset = 0;
-		} else if ($scope.focuser.offset > 1000) {
-			$scope.focuser.offset = 1000;
+		} else if ($scope.focuser.offset > 2000) {
+			$scope.focuser.offset = 2000;
 		}
 
 		$scope.focuser.exp_offset = Math.floor($scope.focuser.offset
 				- $scope.focuser.last_offset);
 
-		var steps = $scope.focuser.offset - 500;
-		var height = Math.abs(steps) * 115 / 500;
+		var steps = $scope.focuser.offset - 1000;
+		var height = Math.abs(steps) * 115 / 1000;
 
 		$scope.focuserBarStyle.height = height + "px";
 
 		if (steps >= 0) {
-			$scope.focuserStyle.top = ((($scope.focuser.offset * 230 / 1000) + 83) * -1.0)
+			$scope.focuserStyle.top = ((($scope.focuser.offset * 230 / 2000) + 83) * -1.0)
 					+ "px";
 			$scope.focuserBarStyle.top = (115 - height) + "px";
 		} else {
-			$scope.focuserStyle.top = (((($scope.focuser.offset * 230 / 1000) + 83) * -1.0) + 25)
+			$scope.focuserStyle.top = (((($scope.focuser.offset * 230 / 2000) + 83) * -1.0) + 25)
 					+ "px";
 			$scope.focuserBarStyle.top = (115) + "px";
 		}
