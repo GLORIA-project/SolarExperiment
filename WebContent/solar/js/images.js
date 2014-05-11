@@ -67,7 +67,9 @@ function SolarImagesCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout,
 	$scope.$watch('imageTaken', function() {
 		if ($scope.rid > 0 && $scope.$parent.imageTaken) {
 			var prevLength = $scope.images.length;
-			$scope.thumbsReady = false;
+			if (!$scope.sharedMode) {
+				$scope.thumbsReady = false;
+			}
 			LoadMyImages($gloriaAPI, $scope).then(
 					function() {
 						if ($scope.images.length != prevLength) {
@@ -75,8 +77,8 @@ function SolarImagesCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout,
 									$scope.images.length - 6);
 							$scope.latencyTimer = $timeout(
 									$scope.latencyTimeout, 1000);
-						} else {
-							$scope.forceImageRefresh(1000);
+						} else if (!$scope.sharedMode) {
+							$scope.forceImageRefresh(1000);							
 						}
 					},
 					function() {

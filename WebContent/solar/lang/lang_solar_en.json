@@ -27,7 +27,7 @@
             "loading": "Loading",
             "point": "Asking TADs to point to the Sun",
             "request": "Just click on the Sun to start pointing",
-            "pointed": "Once the Sun is visible, you can use the finder arrows to centre",
+            "pointed": "The telescope is tracking, you can use the finder arrows to centre",
             "moving-e": "Moving to the east",
             "moving-n": "Moving to the north",
             "moving-s": "Moving to the south",

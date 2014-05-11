@@ -4,52 +4,6 @@ function pad(n) {
 	return (n < 10) ? ("0" + n) : n;
 }
 
-toolbox.lazy.filter('UTCFullFilter', function() {
-	return function(input) {
-		return new Date(input).toUTCString();
-	};
-});
-
-toolbox.lazy.filter('UTCTimeFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getUTCHours());
-		dateStr += ':' + pad(date.getUTCMinutes());
-		dateStr += ' UT';
-		return dateStr;
-	};
-});
-
-toolbox.lazy.filter('TimeFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getHours());
-		dateStr += ':' + pad(date.getMinutes());
-		return dateStr;
-	};
-});
-
-toolbox.lazy.filter('DateFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getMonth());
-		dateStr += '/' + pad(date.getDate());
-		dateStr += '/' + pad(date.getFullYear());
-		return dateStr;
-	};
-});
-
-toolbox.lazy.filter('UTCDateFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getUTCMonth());
-		dateStr += '/' + pad(date.getUTCDate());
-		dateStr += '/' + pad(date.getUTCFullYear());
-		dateStr += ' UT';
-		return dateStr;
-	};
-});
-
 function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 		$routeParams, Login) {
 
