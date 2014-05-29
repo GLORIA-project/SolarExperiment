@@ -214,10 +214,10 @@
 							ng-mouseenter="status.main.camera.focused=true"
 							ng-mouseleave="status.main.camera.focused=false"
 							style="position: absolute; top: -53px; left: 200px;">
-							<img ng-show="imageTaken" ng-click="startExposure()"
+							<img ng-show="$parent.$parent.imageTaken" ng-click="startExposure()"
 								style="width: 43px; cursor: pointer" class="bright-button"
 								ng-src="{{mainPath}}/img/take.png"> <img
-								ng-show="!imageTaken"
+								ng-show="!$parent.$parent.imageTaken"
 								style="width: 43px; cursor: default; margin-top: -4px"
 								ng-src="{{mainPath}}/img/loading.gif">
 						</div>

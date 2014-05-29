@@ -81,7 +81,7 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 	};
 
 	$scope.onTimeout = function() {
-		$scope.reservationActive = false;
+		$scope.reservationActive = false;		
 	};
 
 	$scope.onDeviceProblem = function() {
@@ -92,24 +92,28 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 	$scope.$watch('reservationEnd', function() {
 		if ($scope.reservationEnd) {
 			$scope.endTimer = $timeout($scope.onTimeout, 1500);
+			$('#zoom').remove();
 		}
 	});
 
 	$scope.$watch('notAuthorized', function() {
 		if ($scope.notAuthorized) {
 			$scope.unauthTimer = $timeout($scope.onUnauth, 1500);
+			$('#zoom').remove();
 		}
 	});
 
 	$scope.$watch('serverDown', function() {
 		if ($scope.serverDown) {
 			$scope.srvTimer = $timeout($scope.onDown, 1500);
+			$('#zoom').remove();
 		}
 	});
 
 	$scope.$watch('deviceOnError', function() {
 		if ($scope.deviceOnError) {
 			$scope.deviceOnErrorTimer = $timeout($scope.onDeviceProblem, 1500);
+			$('#zoom').remove();
 		}
 	});
 
