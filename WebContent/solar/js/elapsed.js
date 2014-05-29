@@ -7,10 +7,10 @@ function LoadRemainingTime($gloriaAPI, scope) {
 		});
 	}).then(function() {
 	}, function(response) {
-		if (response.status == 406) {
-			scope.$parent.$parent.$parent.reservationEnd = true;
-		} else if (response.status == 401) {
+		if (response.status == 401) {
 			scope.$parent.$parent.$parent.notAuthorized = true;
+		} else {
+			scope.$parent.$parent.$parent.reservationEnd = true;
 		}
 	});
 }

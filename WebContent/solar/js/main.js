@@ -4,52 +4,6 @@ function pad(n) {
 	return (n < 10) ? ("0" + n) : n;
 }
 
-toolbox.lazy.filter('UTCFullFilter', function() {
-	return function(input) {
-		return new Date(input).toUTCString();
-	};
-});
-
-toolbox.lazy.filter('UTCTimeFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getUTCHours());
-		dateStr += ':' + pad(date.getUTCMinutes());
-		dateStr += ' UT';
-		return dateStr;
-	};
-});
-
-toolbox.lazy.filter('TimeFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getHours());
-		dateStr += ':' + pad(date.getMinutes());
-		return dateStr;
-	};
-});
-
-toolbox.lazy.filter('DateFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getMonth());
-		dateStr += '/' + pad(date.getDate());
-		dateStr += '/' + pad(date.getFullYear());
-		return dateStr;
-	};
-});
-
-toolbox.lazy.filter('UTCDateFilter', function() {
-	return function(input) {
-		var date = new Date(input);
-		var dateStr = '' + pad(date.getUTCMonth());
-		dateStr += '/' + pad(date.getUTCDate());
-		dateStr += '/' + pad(date.getUTCFullYear());
-		dateStr += ' UT';
-		return dateStr;
-	};
-});
-
 function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 		$routeParams, Login) {
 
@@ -127,7 +81,7 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 	};
 
 	$scope.onTimeout = function() {
-		$scope.reservationActive = false;
+		$scope.reservationActive = false;		
 	};
 
 	$scope.onDeviceProblem = function() {
@@ -138,24 +92,28 @@ function SolarMainCtrl($gloriaAPI, $scope, $timeout, $gloriaLocale,
 	$scope.$watch('reservationEnd', function() {
 		if ($scope.reservationEnd) {
 			$scope.endTimer = $timeout($scope.onTimeout, 1500);
+			$('#zoom').remove();
 		}
 	});
 
 	$scope.$watch('notAuthorized', function() {
 		if ($scope.notAuthorized) {
 			$scope.unauthTimer = $timeout($scope.onUnauth, 1500);
+			$('#zoom').remove();
 		}
 	});
 
 	$scope.$watch('serverDown', function() {
 		if ($scope.serverDown) {
 			$scope.srvTimer = $timeout($scope.onDown, 1500);
+			$('#zoom').remove();
 		}
 	});
 
 	$scope.$watch('deviceOnError', function() {
 		if ($scope.deviceOnError) {
 			$scope.deviceOnErrorTimer = $timeout($scope.onDeviceProblem, 1500);
+			$('#zoom').remove();
 		}
 	});
 

@@ -1,103 +1,70 @@
 'use strict';
 
-toolbox.lazy.directive('ngElevateZoom', function() {
-	return {
-		restrict : 'A',
-		link : function(scope, element, attrs) {
-
-			// var url = attrs.zoomImage;//.substring(0,
-			// attrs.zoomImage.indexOf("?d="));
-
-			// Will watch for changes on the attribute
-			attrs.$observe('zoomImage', function() {
-				var image = new Image();
-				var url = attrs.zoomImage;
-				if (scope.loading == undefined || !scope.loading) {
-					scope.loading = true;
-					image.onload = function() {
-						element.attr('src', url);
-						scope.loading = false;
-						
-						element.attr('src', url);
-						scope.elevate = $.data(element[0], 'elevateZoom');
-						if (scope.elevate != undefined
-								&& scope.elevate.zoomLens != undefined) {
-							element.attr('data-zoom-image', url);
-							scope.elevate.refresh_image(image);
-						} else
-							linkElevateZoom(image);
-						
-					};
-					image.src = url;
-				}
-				/*
-				 * .load(function() { if (!this.complete || typeof
-				 * this.naturalWidth == "undefined" || this.naturalWidth == 0) { //
-				 * alert('broken image!'); } else { scope.elevate =
-				 * $.data(element[0], 'elevateZoom'); if (scope.elevate !=
-				 * undefined && scope.elevate.zoomLens != undefined) {
-				 * element.attr('data-zoom-image', url);
-				 * scope.elevate.refresh_image(url); } else
-				 * linkElevateZoom(url); } });
-				 */
-
-				// image.src = attrs.zoomImage;
-				// linkElevateZoom();
-			});
-
-			function linkElevateZoom(image) {
-				// Check if its not empty
-				if (!attrs.zoomImage)
-					return;
-				element.attr('data-zoom-image', image.src);
-				$(element).elevateZoom({
-					zoomType : "lens",
-					lensShape : "round",
-					lensSize : 150
-				});
-			}
-
-			// linkElevateZoom();
-		}
-	};
-});
-
 function LoadDomeContent($gloriaAPI, scope) {
-	return $gloriaAPI.getParameterValue(scope.rid, 'dome', function(data) {
-		console.log(data);
-
-		if (data.last_operation != undefined) {
-			scope.status.dome.lastOperation = data.last_operation;
-			if (data.last_operation == 'open') {
-				scope.status.dome.closeEnabled = true;
-				scope.status.dome.openEnabled = false;
-			} else {
-				scope.status.dome.openStyle.left = "78.3%";
-				scope.status.dome.closeEnabled = false;
-				scope.status.dome.openEnabled = true;
+	return $gloriaAPI.executeOperation(scope.rid, 'load_dome_status',
+			function(data) {
+				console.log(data);
+			}, function(error) {
+				if (!$scope.sharedMode) {
+					scope.$parent.$parent.deviceOnError = true;
+				}
+			}).then(function() {
+		return $gloriaAPI.getParameterValue(scope.rid, 'dome', function(data) {
+			if (data.last_operation != undefined) {
+				scope.status.dome.lastOperation = data.last_operation;
+				if (data.last_operation == 'open') {
+					scope.status.dome.closeEnabled = true;
+					scope.status.dome.openEnabled = false;
+				} else {
+					scope.status.dome.openStyle.left = "78.3%";
+					scope.status.dome.closeEnabled = false;
+					scope.status.dome.openEnabled = true;
+				}
 			}
-		}
+
+			if (data.status == undefined || data.status == 'UNDEFINED') {
+				scope.status.dome.error = true;
+			}
+		});
 	});
 }
 
-function OpenDome($gloriaAPI, scope) {
+function OpenDome($gloriaAPI, scope, $timeout) {
 
-	$gloriaAPI.setParameterTreeValue(scope.rid, 'dome', 'last_operation',
-			'open');
-
-	return $gloriaAPI.executeOperation(scope.rid, 'open', function(data) {
-	}, function(error) {
-	});
+	return $gloriaAPI.setParameterTreeValue(scope.rid, 'dome',
+			'last_operation', 'open',
+			function() {
+				$gloriaAPI.executeOperation(scope.rid, 'open', function(
+						data) {
+					scope.status.dome.timer = $timeout(
+							scope.status.dome.timeout, 60000);
+				}, function(error) {
+					scope.status.dome.error = true;
+					scope.status.dome.locked = true;
+				});
+			}, function() {
+				scope.status.dome.error = true;
+				scope.status.dome.locked = true;
+			});
 }
 
-function CloseDome($gloriaAPI, scope) {
+function CloseDome($gloriaAPI, scope, $timeout) {
 
-	$gloriaAPI.setParameterTreeValue(scope.rid, 'dome', 'last_operation',
-			'close');
-
-	return $gloriaAPI.executeOperation(scope.rid, 'close', function(data) {
-	}, function(error) {
-	});
+	return $gloriaAPI.setParameterTreeValue(scope.rid, 'dome',
+			'last_operation', 'close',
+			function() {
+				$gloriaAPI.executeOperation(scope.rid, 'close',
+						function(data) {
+							scope.status.dome.timer = $timeout(
+									scope.status.dome.timeout, 60000);
+						}, function(error) {
+							scope.status.dome.error = true;
+							scope.status.dome.locked = true;
+						});
+			}, function() {
+				scope.status.dome.error = true;
+				scope.status.dome.locked = true;
+			});
 }
 
 function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
@@ -110,8 +77,22 @@ function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
 		dome : {
 			closeEnabled : true,
 			openEnabled : true,
-			openStyle : {},
-			closeStyle : {}
+			openStyle : {
+				zIndex: 100
+			},
+			closeStyle : {
+				zIndex: 100
+			},
+			barStyle : {
+				position : 'absolute',
+				bottom : '-164px',
+				opacity : '0.0',
+				height : '48px',
+				left : '0px',
+				width : '100%',
+				backgroundColor : 'black'
+			},
+			error : false
 		}
 	};
 
@@ -119,8 +100,7 @@ function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
 		$scope.status.dome.openEnabled = false;
 		$scope.status.dome.closeEnabled = false;
 		$scope.status.dome.lastOperation = 'open';
-		OpenDome($gloriaAPI, $scope);
-		$scope.status.dome.timer = $timeout($scope.status.dome.timeout, 60000);
+		OpenDome($gloriaAPI, $scope, $timeout);
 	};
 
 	$scope.status.dome.timeout = function() {
@@ -137,8 +117,16 @@ function SolarScamCtrl($gloriaAPI, $scope, $timeout) {
 		$scope.status.dome.closeEnabled = false;
 		$scope.status.dome.openEnabled = false;
 		$scope.status.dome.lastOperation = 'close';
-		CloseDome($gloriaAPI, $scope);
-		$scope.status.dome.timer = $timeout($scope.status.dome.timeout, 60000);
+		CloseDome($gloriaAPI, $scope, $timeout);
+	};
+
+	$scope.showDomeBar = function() {
+		$scope.status.dome.barStyle.opacity = 0.7;
+
+	};
+
+	$scope.hideDomeBar = function() {
+		$scope.status.dome.barStyle.opacity = 0.0;
 	};
 
 	$scope.status.time.onTimeout = function() {

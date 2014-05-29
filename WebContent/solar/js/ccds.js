@@ -1,5 +1,54 @@
 'use strict';
 
+toolbox.lazy.directive('ngElevateZoom', function() {
+	return {
+		restrict : 'A',
+		link : function(scope, element, attrs) {
+
+			// var url = attrs.zoomImage;//.substring(0,
+			// attrs.zoomImage.indexOf("?d="));
+
+			// Will watch for changes on the attribute
+			attrs.$observe('zoomImage', function() {
+				var image = new Image();
+				var url = attrs.zoomImage;
+				try {
+					if (scope.loading == undefined || !scope.loading) {
+						scope.loading = true;
+						image.onload = function() {
+							scope.loading = false;
+//							element.attr('src', url);
+							scope.elevate = $.data(element[0], 'elevateZoom');
+							if (scope.elevate != undefined
+									&& scope.elevate.zoomLens != undefined) {
+								element.attr('data-zoom-image', url);
+								scope.elevate.refresh_image(image);
+							} else
+								linkElevateZoom(image);
+
+						};
+						image.src = url;
+					}
+				} catch (e) {
+					scope.loading = false;
+				}
+			});
+
+			function linkElevateZoom(image) {
+				// Check if its not empty
+				if (!attrs.zoomImage)
+					return;
+				element.attr('data-zoom-image', image.src);
+				$(element).elevateZoom({
+					zoomType : "lens",
+					lensShape : "round",
+					lensSize : 150
+				});
+			}
+		}
+	};
+});
+
 function LoadCCDContent($gloriaAPI, scope) {
 	return scope.sequence.execute(function() {
 		return $gloriaAPI.getParameterTreeValue(scope.rid, 'cameras', 'ccd',
@@ -16,7 +65,7 @@ function LoadFocuserContent($gloriaAPI, scope) {
 					scope.focuser = data;
 
 					if (scope.focuser.last_offset == undefined) {
-						scope.focuser.last_offset = 500;
+						scope.focuser.last_offset = 1000;
 					}
 
 					scope.focuser.offset = scope.focuser.last_offset;
@@ -42,7 +91,7 @@ function LoadContinuousImage($gloriaAPI, scope, order) {
 				function() {
 					scope.continuousMode = false;
 				}, function(error) {
-					scope.$parent.deviceOnError = true;
+					scope.$parent.$parent.deviceOnError = true;
 				});
 	});
 
@@ -51,7 +100,7 @@ function LoadContinuousImage($gloriaAPI, scope, order) {
 				function() {
 					scope.continuousMode = true;
 				}, function(error) {
-					scope.$parent.deviceOnError = true;
+					scope.$parent.$parent.deviceOnError = true;
 				});
 	});
 }
@@ -124,7 +173,7 @@ function LoadCCDAttributes($gloriaAPI, scope, order) {
 		return $gloriaAPI.executeOperation(scope.rid, 'get_ccd_attributes',
 				function() {
 				}, function(error) {
-					scope.$parent.deviceOnError = true;
+					scope.$parent.$parent.deviceOnError = true;
 				});
 	});
 }
@@ -154,6 +203,7 @@ function StartExposure($gloriaAPI, scope, timeout) {
 
 function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 
+	$scope.loading = false;
 	$scope.sequence = $sequenceFactory.getSequence();
 	$scope.finderImage = $scope.mainPath + '/img/wn3.gif';
 	$scope.ccds = [ {}, {} ];
@@ -265,29 +315,29 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 	};
 
 	$scope.setFocuserPositionValue = function(sign) {
-		$scope.focuser.offset += (150 * $scope.status.main.focuser.length)
+		$scope.focuser.offset += (300 * $scope.status.main.focuser.length)
 				* sign;
 
 		if ($scope.focuser.offset < 0) {
 			$scope.focuser.offset = 0;
-		} else if ($scope.focuser.offset > 1000) {
-			$scope.focuser.offset = 1000;
+		} else if ($scope.focuser.offset > 2000) {
+			$scope.focuser.offset = 2000;
 		}
 
 		$scope.focuser.exp_offset = Math.floor($scope.focuser.offset
 				- $scope.focuser.last_offset);
 
-		var steps = $scope.focuser.offset - 500;
-		var height = Math.abs(steps) * 115 / 500;
+		var steps = $scope.focuser.offset - 1000;
+		var height = Math.abs(steps) * 115 / 1000;
 
 		$scope.focuserBarStyle.height = height + "px";
 
 		if (steps >= 0) {
-			$scope.focuserStyle.top = ((($scope.focuser.offset * 230 / 1000) + 83) * -1.0)
+			$scope.focuserStyle.top = ((($scope.focuser.offset * 230 / 2000) + 83) * -1.0)
 					+ "px";
 			$scope.focuserBarStyle.top = (115 - height) + "px";
 		} else {
-			$scope.focuserStyle.top = (((($scope.focuser.offset * 230 / 1000) + 83) * -1.0) + 25)
+			$scope.focuserStyle.top = (((($scope.focuser.offset * 230 / 2000) + 83) * -1.0) + 25)
 					+ "px";
 			$scope.focuserBarStyle.top = (115) + "px";
 		}
@@ -386,22 +436,23 @@ function SolarCCDCtrl($gloriaAPI, $scope, $timeout, $sequenceFactory) {
 	$scope.status.time.onTimeout = function() {
 		$scope.status.time.count += 1;
 		var i = 0;
-		$scope.ccds
-				.forEach(function(index) {
-					if ($scope.ccds[i].cont != null
-							&& $scope.ccds[i].cont != undefined) {
-						$scope.ccds[i].pcont = $scope.ccds[i].cont + '?v='
-								+ $scope.status.time.count;
-					}
+		if (!$scope.loading) {
+			$scope.ccds.forEach(function(index) {
+				if ($scope.ccds[i].cont != null
+						&& $scope.ccds[i].cont != undefined) {
+					$scope.ccds[i].pcont = $scope.ccds[i].cont + '?v='
+							+ $scope.status.time.count;
+				}
 
-					i++;
-				});
+				i++;
+			});
+		}
 		$scope.status.time.timer = $timeout($scope.status.time.onTimeout, 1000,
 				1000);
 	};
-	
+
 	$scope.contClicked = function(event) {
-		//alert(event.offsetX + " " + event.offsetY);
+		// alert(event.offsetX + " " + event.offsetY);
 	};
 
 	$scope.$on('$destroy', function() {

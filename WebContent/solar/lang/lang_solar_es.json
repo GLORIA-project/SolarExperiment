@@ -27,7 +27,7 @@
 			"loading": "Cargando",
 			"point": "Solicitando al TADs que apunte al Sol",
 			"request": "Haz click en el Sol para apuntar",
-			"pointed": "Una vez el Sol sea visible, utiliza las flechas para centrar",
+			"pointed": "El telescopio está en seguimiento al Sol, utiliza las flechas para centrar",
 			"moving-e": "Moviendo al este",
 			"moving-n": "Moviendo al norte",
 			"moving-s": "Moviendo al sur",

@@ -46,7 +46,7 @@
 		{{'solar.reservation.nvalid'|i18n:preRid}}</div>
 	<div class="animate-show"
 		ng-show="!deviceProblem && reservationActive && !notAuthorized"
-		ng-class="{'transparent': reservationEnd || notAuthorized || deviceOnError}">
+		ng-class="{'transparent': reservationEnd || notAuthorized}">
 
 		<div ng-include src="specificHtml"></div>
 	</div>

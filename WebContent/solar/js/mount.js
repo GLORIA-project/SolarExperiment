@@ -11,6 +11,7 @@ function LoadMountStatus($gloriaAPI, scope) {
 	return $gloriaAPI.executeOperation(scope.rid, 'load_mount_status',
 			function(data) {
 			}, function(error) {
+				scope.$parent.$parent.deviceOnError = true;
 			});
 }
 
@@ -31,7 +32,7 @@ function GetSavedStatus($gloriaAPI, scope) {
 
 				if (data == null || data == "") {
 					if (scope.sharedMode) {
-						scope.$parent.deviceOnError = true;
+						scope.$parent.$parent.deviceOnError = true;
 					} else {
 						SetSavedStatus($gloriaAPI, scope, 'TARGET_SET');
 						scope.status.context = 'TARGET_SET';
@@ -78,14 +79,14 @@ function PointToTarget($gloriaAPI, scope, $timeout) {
 	if (scope.status.actual == 'PARKED') {
 		time = 10000;
 	}
-	
+
 	return $gloriaAPI.executeOperation(scope.rid, 'point_to_object', function(
 			data) {
 		scope.inAction = false;
 		scope.pointDone = true;
 		scope.targetMessage = scope.messages.pointed;
 		SetSavedStatus($gloriaAPI, scope, 'POINTED');
-		
+
 		scope.status.time.pointingTimer = $timeout(
 				scope.status.time.reenablePointing, time);
 	}, function(error) {
@@ -103,7 +104,7 @@ function MoveMount($gloriaAPI, scope, direction, $timeout) {
 
 	scope.inAction = true;
 	scope.$parent.arrowsEnabled = false;
-	
+
 	if (direction == 'WEST') {
 		scope.targetMessage = scope.messages.movingWest;
 		operation = 'move_west';
@@ -138,10 +139,12 @@ function MoveMount($gloriaAPI, scope, direction, $timeout) {
 }
 
 function SetTargetMessage(scope) {
-	if (scope.status.context == 'TARGET_SET') {
-		scope.targetMessage = scope.messages.requestPoint;
+	if (scope.status.actual == 'TRACKING') {
+		scope.targetMessage = scope.messages.pointed;
 	} else if (scope.status.context == 'POINTED') {
 		scope.targetMessage = scope.messages.pointed;
+	} else if (scope.status.context == 'TARGET_SET') {
+		scope.targetMessage = scope.messages.requestPoint;
 	}
 }
 
@@ -209,7 +212,7 @@ function SolarMountCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout) {
 				if ($scope.status.actual != 'PARKED') {
 					$scope.$parent.arrowsEnabled = true;
 				}
-				
+
 				if ($scope.status.context == 'TARGET_SET') {
 					$scope.targetReady = true;
 					$scope.pointingEnabled = true;
@@ -220,7 +223,7 @@ function SolarMountCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout) {
 					$scope.pointDone = true;
 					$scope.pointingEnabled = true;
 					$scope.sunIconStyle.opacity = 1.0;
-					$scope.$parent.targetSettingsLoaded = true;					
+					$scope.$parent.targetSettingsLoaded = true;
 				}
 
 				if ($scope.sharedMode) {
@@ -256,7 +259,8 @@ function SolarMountCtrl($gloriaAPI, $sequenceFactory, $scope, $timeout) {
 			return GetMountStatus($gloriaAPI, $scope);
 		}).then(
 				function() {
-					if ($scope.status.actual == 'TRACKING' || $scope.status.actual == 'STOP') {
+					if ($scope.status.actual == 'TRACKING'
+							|| $scope.status.actual == 'STOP') {
 						$scope.pointingEnabled = true;
 						$scope.sunIconStyle.opacity = 1.0;
 						$scope.$parent.arrowsEnabled = true;
